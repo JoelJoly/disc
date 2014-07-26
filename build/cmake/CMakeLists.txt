@@ -1,0 +1,10 @@
+cmake_minimum_required (VERSION 2.8)
+project (Disc)
+
+set(DISC_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+set(DISC_SRC_DIR ${DISC_ROOT_DIR}/src)
+set(DISC_EXTERNALS_DIR ${DISC_ROOT_DIR}/externals)
+
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+
+find_package(GLEW REQUIRED)
