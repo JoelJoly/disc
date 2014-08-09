@@ -3,6 +3,8 @@
 #include "disc/graphics/ElementArray.h"
 #include "disc/graphics/VertexAttribArray.h"
 
+#include "disc/graphics/utils/Error.h"
+
 #include <GL/glew.h>
 
 #include <deque>
@@ -41,6 +43,7 @@ VertexArrayObject::~VertexArrayObject()
 void VertexArrayObject::bind() const
 {
 	glBindVertexArray(pImpl_->array_);
+	GRAPHICS_CHECK_ERROR(pImpl_->context_);
 }
 
 VertexAttribArray& VertexArrayObject::addVertexAttrib()
@@ -72,4 +75,5 @@ void VertexArrayObject::render() const
 	bind();
 	pImpl_->elements_->bind();
 	glDrawElements(GL_TRIANGLES, pImpl_->elements_->getSize(), static_cast<GLenum>(pImpl_->elements_->getType()), nullptr);
+	GRAPHICS_CHECK_ERROR(pImpl_->context_);
 }

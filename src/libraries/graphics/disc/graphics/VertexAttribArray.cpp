@@ -2,6 +2,8 @@
 
 #include "disc/graphics/GraphicsContext.h"
 
+#include "disc/graphics/utils/Error.h"
+
 #include <GL/glew.h>
 
 #include <stdexcept>
@@ -40,6 +42,5 @@ void VertexAttribArray::bindPointer(uint32_t location) const
 	GRAPHICS_CHECK_ERROR(getContext());
 	glVertexAttribPointer(static_cast<GLuint>(location), 4, GL_FLOAT, GL_FALSE, 0, 0);
 	GRAPHICS_CHECK_ERROR(getContext());
-//	glDisableVertexAttribArray(static_cast<GLuint>(location));
-//	GRAPHICS_CHECK_ERROR(getContext());
+
 }

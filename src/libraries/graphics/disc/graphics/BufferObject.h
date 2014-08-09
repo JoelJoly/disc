@@ -27,6 +27,9 @@ namespace disc
 			void setDataAndFormat(const void* data, const VertexAttribFormat& format);
 			const VertexAttribFormat& getFormat() const;
 
+			GraphicsContext& getContext();
+			const GraphicsContext& getContext() const;
+
 		private:
 			BufferObject(const BufferObject&);
 			BufferObject& operator=(const BufferObject&);

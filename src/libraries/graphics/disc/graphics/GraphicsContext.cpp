@@ -3,6 +3,8 @@
 #include "disc/graphics/DeviceContext.h"
 #include "disc/graphics/Pipeline.h"
 
+#include "disc/graphics/utils/Error.h"
+
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #include "disc/graphics/DeviceContextImpl.h"
@@ -106,11 +108,11 @@ struct GraphicsContext::PImpl
 	{
 		wglMakeCurrent(hdc_, hrc_);
 	}
-	void checkGLError() const
+	void checkGLError(const std::string& file, uint32_t line) const
 	{
 		GLenum glError = glGetError();
 		if (glError != GL_NO_ERROR)
-			std::cerr << "GL Error: " << glError << std::endl;
+			std::cerr << file << '(' << line << "): GL Error: " << std::showbase << std::hex << glError << std::endl;
 	}
 	void releaseCurrent()
 	{
@@ -152,7 +154,7 @@ void GraphicsContext::render()
 		pipeline->render();
 	}
 	SwapBuffers(pImpl_->hdc_);
-	pImpl_->checkGLError();
+	GRAPHICS_CHECK_ERROR(*this);
 	pImpl_->releaseCurrent();
 }
 
@@ -160,4 +162,9 @@ std::shared_ptr<Pipeline> GraphicsContext::addPipeline()
 {
 	pImpl_->pipelines_.emplace_back(new Pipeline());
 	return pImpl_->pipelines_.back();
+}
+
+void GraphicsContext::checkError(const std::string& file, uint32_t line) const
+{
+	return pImpl_->checkGLError(file, line);
 }

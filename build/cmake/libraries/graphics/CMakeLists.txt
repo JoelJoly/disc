@@ -27,6 +27,8 @@ set (GRAPHICS_SRC
 	${DISC_LIBRARY_GRAPHICS_SRC_DIR}/VertexAttribFormat.cpp
 	${DISC_LIBRARY_GRAPHICS_SRC_DIR}/Window.h
 	${DISC_LIBRARY_GRAPHICS_SRC_DIR}/Window.cpp
+	${DISC_LIBRARY_GRAPHICS_SRC_DIR}/utils/Error.h
+	${DISC_LIBRARY_GRAPHICS_SRC_DIR}/utils/Error.cpp
 	)
 
 include_directories(${DISC_LIBRARY_SRC_DIR}/graphics)
