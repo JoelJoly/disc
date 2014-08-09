@@ -1,11 +1,13 @@
 #include "disc/graphics/GraphicsContext.h"
 
 #include "disc/graphics/DeviceContext.h"
+#include "disc/graphics/Pipeline.h"
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #include "disc/graphics/DeviceContextImpl.h"
 
+#include <deque>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -121,6 +123,7 @@ struct GraphicsContext::PImpl
 	int minorVersion_;
 	unsigned int width_;
 	unsigned int height_;
+	std::deque<std::shared_ptr<Pipeline>> pipelines_;
 };
 
 GraphicsContext::GraphicsContext(const DeviceContext& deviceContext)
@@ -144,7 +147,17 @@ void GraphicsContext::render()
 	glClearColor(0.6f, 0.7f, 0.3f, 0.f);
 	glViewport(0, 0, pImpl_->width_, pImpl_->height_);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	for (const auto& pipeline : pImpl_->pipelines_)
+	{
+		pipeline->render();
+	}
 	SwapBuffers(pImpl_->hdc_);
 	pImpl_->checkGLError();
 	pImpl_->releaseCurrent();
+}
+
+std::shared_ptr<Pipeline> GraphicsContext::addPipeline()
+{
+	pImpl_->pipelines_.emplace_back(new Pipeline());
+	return pImpl_->pipelines_.back();
 }

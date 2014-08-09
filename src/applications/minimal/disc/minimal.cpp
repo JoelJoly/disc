@@ -1,3 +1,5 @@
+#include "disc/graphics/GraphicsContext.h"
+#include "disc/graphics/Pipeline.h"
 #include "disc/graphics/Rectangular.h"
 #include "disc/graphics/VertexArrayObject.h"
 #include "disc/graphics/Window.h"
@@ -11,12 +13,13 @@ int main(int arcg, void**argv)
 		disc::graphics::Rectangular square(10.f, 10.f, -50.f);
 		disc::graphics::Window window;
 		window.show();
-		std::shared_ptr<disc::graphics::VertexArrayObject> geometry = square.generateGeometry(window.getGraphicsContext());
+		auto geometry = square.generateGeometry(window.getGraphicsContext());
+		auto pipeline = window.getGraphicsContext().addPipeline();
+		pipeline->addVAO(geometry);
 		while (! window.aboutToClose())
 		{
 			window.processMessages();
 			window.render();
-			geometry->render();
 		}
 	}
 	catch (const std::exception& e)
