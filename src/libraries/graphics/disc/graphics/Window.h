@@ -32,6 +32,8 @@ namespace disc
 
 			void* getHandle() const;
 
+			GraphicsContext& getGraphicsContext();
+
 		private:
 			std::unique_ptr<GraphicsContext> createGraphicsContext();
 			struct PImpl;

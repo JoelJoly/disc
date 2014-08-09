@@ -110,6 +110,10 @@ struct GraphicsContext::PImpl
 		if (glError != GL_NO_ERROR)
 			std::cerr << "GL Error: " << glError << std::endl;
 	}
+	void releaseCurrent()
+	{
+		wglMakeCurrent(hdc_, nullptr);
+	}
 
 	HGLRC hrc_;
 	HDC hdc_;
@@ -142,4 +146,5 @@ void GraphicsContext::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	SwapBuffers(pImpl_->hdc_);
 	pImpl_->checkGLError();
+	pImpl_->releaseCurrent();
 }

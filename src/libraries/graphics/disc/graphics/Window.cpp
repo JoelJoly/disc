@@ -167,6 +167,13 @@ void* Window::getHandle() const
 	return pImpl_->hWnd_;
 }
 
+GraphicsContext& Window::getGraphicsContext()
+{
+	if (! pImpl_->graphicsContext_)
+		throw std::runtime_error("Window has no rendering context");
+	return *pImpl_->graphicsContext_;
+}
+
 std::unique_ptr<GraphicsContext> Window::createGraphicsContext()
 {
 	return std::unique_ptr<GraphicsContext>(new GraphicsContext(*pImpl_->deviceContext_));
