@@ -34,7 +34,9 @@ struct GraphicsContext::PImpl
 	}
 	~PImpl()
 	{
-		wglMakeCurrent(hdc_, 0); // remove current GL context in case it is our own
+		makeCurrent();
+		pipelines_.clear();
+		releaseCurrent(); // remove current GL context in case it is our own
 		wglDeleteContext(hrc_); // delete our rendering context
 	}
 	void create40Context(HDC hdc)

@@ -18,6 +18,7 @@ using namespace disc::graphics;
 namespace
 {
 	std::function<void (uint16_t, uint16_t)> currentWindowResizeHandling;
+	std::function<void ()> handleWindowClose;
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		switch (message)
@@ -40,6 +41,7 @@ namespace
 			// don't handle WM_WINDOWPOSCHANGED message, the WINDOWPOS struct contains the whole window size
 		case WM_DESTROY:
 			{
+				handleWindowClose();
 				PostQuitMessage(0);
 				break;
 			}
@@ -141,6 +143,9 @@ void Window::processMessages()
 {
 	MSG msg;
 	AssignResizeMessageHandling catchResizeEvents(pImpl_->graphicsContext_.get());
+	handleWindowClose = std::bind([&]() {
+		pImpl_->shouldClose_ = true;
+	} );
 	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
 		switch (msg.message)
