@@ -1,5 +1,6 @@
 #include "disc/graphics/GraphicsContext.h"
 #include "disc/graphics/Pipeline.h"
+#include "disc/graphics/Program.h"
 #include "disc/graphics/Rectangular.h"
 #include "disc/graphics/VertexArrayObject.h"
 #include "disc/graphics/Window.h"
@@ -16,9 +17,11 @@ int main(int arcg, void**argv)
 		auto geometry = square.generateGeometry(window.getGraphicsContext());
 		auto pipeline = window.getGraphicsContext().addPipeline();
 		pipeline->addVAO(geometry);
+		disc::graphics::Program defaultProgram(window.getGraphicsContext());
 		while (! window.aboutToClose())
 		{
 			window.processMessages();
+			defaultProgram.bind();
 			window.render();
 		}
 	}

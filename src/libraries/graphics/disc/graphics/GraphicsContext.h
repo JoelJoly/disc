@@ -19,6 +19,7 @@ namespace disc
 
 			void resize(unsigned int width, unsigned int height);
 			void render(); // should be in a camera class
+			void bind();
 
 			std::shared_ptr<Pipeline> addPipeline();
 

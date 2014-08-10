@@ -160,6 +160,11 @@ void GraphicsContext::render()
 	pImpl_->releaseCurrent();
 }
 
+void GraphicsContext::bind()
+{
+	pImpl_->makeCurrent();
+}
+
 std::shared_ptr<Pipeline> GraphicsContext::addPipeline()
 {
 	pImpl_->pipelines_.emplace_back(new Pipeline());
